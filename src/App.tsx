@@ -26,7 +26,7 @@ function AppContent() {
 
   const tabs = [
     { id: 'dashboard' as TabId, label: 'Oversikt', icon: LayoutDashboard },
-    { id: 'mop' as TabId, label: 'MOP Oppfolging', icon: ClipboardList },
+    { id: 'mop' as TabId, label: 'MOP Oppfølging', icon: ClipboardList },
     { id: 'epd' as TabId, label: 'Materialer & EPD', icon: Leaf },
     { id: 'chem' as TabId, label: 'Farlige Stoffer', icon: FlaskConical },
     { id: 'emissions' as TabId, label: 'Emisjonskrav', icon: Wind },
@@ -105,7 +105,7 @@ function AppContent() {
 
       <footer className="border-t bg-white py-4 mt-8">
         <div className="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500">
-          Digital MOP v1.0 - Miljooppfolgingsplan for byggprosjekter
+          Digital MOP v1.0 - Miljøoppfølgingsplan for byggprosjekter
         </div>
       </footer>
     </div>

@@ -5,31 +5,31 @@ export const CHEMICAL_CHECKLIST_DATA: ChemicalCheckItem[] = [
     id: 'a20-1',
     substance: 'Bromerte flammehemmere (HBCD, TBBPA)',
     materialCategory: 'Isolasjon (XPS, EPS), cellegummi, takbelegg, fugemasse',
-    description: 'Skal ungaas. Persistente organiske miljogifter.'
+    description: 'Skal unngås. Persistente organiske miljøgifter.'
   },
   {
     id: 'a20-2',
     substance: 'Ftalater (DEHP, DBP, BBP, DIBP)',
     materialCategory: 'Gulvbelegg (vinyl), tapet, fugemasse, lim',
-    description: 'Mykgjorere i plast. Hormonforstyrrende.'
+    description: 'Mykgjørere i plast. Hormonforstyrrende.'
   },
   {
     id: 'a20-3',
     substance: 'Klorparafiner (korte og mellomkjedede)',
     materialCategory: 'Fugemasse, maling, lim, plastprodukter',
-    description: 'Grenseverdi 0,1%. Miljogift.'
+    description: 'Grenseverdi 0,1%. Miljøgift.'
   },
   {
     id: 'a20-4',
     substance: 'Bisfenol A (BPA)',
     materialCategory: 'Epoksyprodukter (lim, fugemasse, gulvbelegg)',
-    description: 'Skal ungaas i produkter som herder pa byggeplass. Hormonforstyrrende.'
+    description: 'Skal unngås i produkter som herder på byggeplass. Hormonforstyrrende.'
   },
   {
     id: 'a20-5',
     substance: 'Tinnorganiske forbindelser',
     materialCategory: 'Gulvbelegg, plastprodukter, silikonfugemasse',
-    description: 'Katalysator/stabilisator i plast. Miljogift.'
+    description: 'Katalysator/stabilisator i plast. Miljøgift.'
   },
   {
     id: 'a20-6',
@@ -41,13 +41,13 @@ export const CHEMICAL_CHECKLIST_DATA: ChemicalCheckItem[] = [
     id: 'a20-7',
     substance: 'Siloksaner (D4/D5)',
     materialCategory: 'Fugemasse, maling, renholdsprodukter',
-    description: 'Miljogift. Bioakkumulerende.'
+    description: 'Miljøgift. Bioakkumulerende.'
   },
   {
     id: 'a20-8',
     substance: 'Fluorerte forbindelser (PFAS)',
     materialCategory: 'Impregnering, maling, belegninger',
-    description: 'Persistent, bioakkumulerende. Skal ungaas.'
+    description: 'Persistent, bioakkumulerende. Skal unngås.'
   },
   {
     id: 'a20-9',

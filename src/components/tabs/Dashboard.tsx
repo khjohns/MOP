@@ -56,7 +56,7 @@ export function Dashboard() {
           </div>
           <div className="text-right">
             <div className="text-3xl font-bold text-green-600">{mopStats.percentage}%</div>
-            <div className="text-xs text-slate-500">Fullfort</div>
+            <div className="text-xs text-slate-500">Fullført</div>
           </div>
         </div>
 
@@ -68,7 +68,7 @@ export function Dashboard() {
           />
         </div>
         <div className="mt-2 text-xs text-slate-500">
-          {mopStats.completed} av {mopStats.relevant} relevante krav er fullfort
+          {mopStats.completed} av {mopStats.relevant} relevante krav er fullført
         </div>
       </div>
 
@@ -80,7 +80,7 @@ export function Dashboard() {
             <div className="p-2 bg-green-100 rounded-lg">
               <CheckCircle2 className="w-5 h-5 text-green-600" />
             </div>
-            <span className="font-semibold text-slate-700">Fullforte krav</span>
+            <span className="font-semibold text-slate-700">Fullførte krav</span>
           </div>
           <div className="text-2xl font-bold text-slate-900">{mopStats.completed}</div>
           <div className="text-xs text-slate-500 mt-1">av {mopStats.relevant} relevante</div>
@@ -94,7 +94,7 @@ export function Dashboard() {
             <span className="font-semibold text-slate-700">Under arbeid</span>
           </div>
           <div className="text-2xl font-bold text-slate-900">{mopStats.inProgress}</div>
-          <div className="text-xs text-slate-500 mt-1">pabegynt eller ivaretatt</div>
+          <div className="text-xs text-slate-500 mt-1">påbegynt eller ivaretatt</div>
         </div>
 
         <div className="bg-white p-5 rounded-xl border shadow-sm">
@@ -102,7 +102,7 @@ export function Dashboard() {
             <div className="p-2 bg-red-100 rounded-lg">
               <AlertTriangle className="w-5 h-5 text-red-600" />
             </div>
-            <span className="font-semibold text-slate-700">Ikke pabegynt</span>
+            <span className="font-semibold text-slate-700">Ikke påbegynt</span>
           </div>
           <div className="text-2xl font-bold text-slate-900">{mopStats.notStarted}</div>
           <div className="text-xs text-slate-500 mt-1">krever oppmerksomhet</div>
