@@ -5,9 +5,9 @@
 export enum MopStatus {
   RELEVANT = "Relevant for oppdraget",
   NOT_RELEVANT = "Ikke relevant for oppdraget",
-  NOT_STARTED = "Ikke pabegynt",
-  STARTED = "Pabegynt",
-  IVARETATT = "Ivaretatt, mangler som bygget dok",
+  NOT_STARTED = "Ikke påbegynt",
+  STARTED = "Påbegynt",
+  IVARETATT = "Ivaretatt, mangler som-bygget dok",
   FERDIG = "Ferdig dokumentert, pkt lukkes"
 }
 
