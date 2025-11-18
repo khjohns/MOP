@@ -2,14 +2,16 @@ import { MopItem, MopStatus, EpdEntry, ChemicalCheckEntry, EmissionEntry } from 
 
 // Example MOP data with various statuses to show progress
 export const EXAMPLE_MOP_DATA: MopItem[] = [
+  // ==========================================
   // KLIMAGASSUTSLIPP OG ENERGI
+  // ==========================================
   {
     id: 'klima-1',
     category: 'KLIMAGASSUTSLIPP OG ENERGI',
     requirement: 'Klimagassutslipp fra materialer (Søknadspliktig)',
     description: 'For søknadspliktig hovedombygging: Det skal ved ferdigstilt prosjekt utarbeides et klimagassregnskap for materialer iht. NS 3720 (TEK17).',
     status: MopStatus.FERDIG,
-    documentation: 'Klimagassregnskap ferdigstilt 15.03.2024. Total utslipp: 245 kg CO2/m². Rapport vedlagt i prosjektdokumentasjon.',
+    documentation: 'Klimagassregnskap ferdigstilt 15.03.2024. Total utslipp: 245 kg CO2/m². Rapport vedlagt.',
     projectFollowUp: 'Godkjent av byggherre. Arkivert i BIM-modell.',
     phase: 'Utførelse'
   },
@@ -27,113 +29,183 @@ export const EXAMPLE_MOP_DATA: MopItem[] = [
     id: 'klima-3',
     category: 'KLIMAGASSUTSLIPP OG ENERGI',
     requirement: 'Innhenting av EPDer',
-    description: 'Det skal innhentes EPD for alle bygningsprodukter hvor EPD-er er tilgjengelige.',
+    description: 'Det skal innhentes EPD for alle bygningsprodukter hvor EPD-er er tilgjengelige. EPD-ene skal være produktspesifikk og tredjepartsverifisert.',
     status: MopStatus.FERDIG,
-    documentation: 'Dokumenteres i fanen "Materialer & EPD"',
+    documentation: 'Utfylling av arkfane "Materialer & EPD"',
     projectFollowUp: 'Alle 12 produktgrupper har gyldig EPD. Se EPD-register.',
-    phase: 'Innkjøp'
+    phase: 'Utførelse'
   },
   {
     id: 'klima-4',
     category: 'KLIMAGASSUTSLIPP OG ENERGI',
-    requirement: 'Utslippsfri byggeplass',
-    description: 'Det skal benyttes utslippsfrie (elektriske/hydrogen) anleggsmaskiner og kjøretøy.',
-    status: MopStatus.IVARETATT,
-    documentation: 'Oversikt over maskiner og energibærere.',
-    projectFollowUp: '80% elektriske maskiner på plass. Venter på el-gravemaskin (levering uke 12).',
+    requirement: 'Utslippsfri byggvarme og -tørk',
+    description: 'Oppvarming og tørk skal gjøres utslippsfritt, for eksempel ved bruk av strøm, fjernvarme eller annen nullutslippsteknologi.',
+    status: MopStatus.FERDIG,
+    documentation: 'Dokumentasjon på forbruk i avtalt mappe.',
+    projectFollowUp: 'El-basert byggvarme installert. Forbruk: 45 kWh/m². Rapportert månedlig.',
     phase: 'Utførelse'
   },
-  // AVFALLSHÅNDTERING
   {
-    id: 'avfall-1',
-    category: 'AVFALLSHÅNDTERING',
-    requirement: 'Avfallsreduksjon',
-    description: 'Avfallsreduserende tiltak skal implementeres i prosjekteringen.',
+    id: 'klima-5',
+    category: 'KLIMAGASSUTSLIPP OG ENERGI',
+    requirement: 'Utslippsfri byggeplass',
+    description: 'Alle maskiner og utstyr som benyttes på bygge-/anleggsplassen skal være utslippsfrie.',
+    status: MopStatus.IVARETATT,
+    documentation: 'Dokumentasjon på forbruk i avtalt mappe.',
+    projectFollowUp: '85% elektriske maskiner. Venter på el-gravemaskin (levering uke 14).',
+    phase: 'Utførelse'
+  },
+  {
+    id: 'klima-6',
+    category: 'KLIMAGASSUTSLIPP OG ENERGI',
+    requirement: 'Transport',
+    description: 'Alle kjøretøy skal oppfylle minimum euroklasse 6/VI. All massetransport skal være utslippsfri eller biogass.',
     status: MopStatus.FERDIG,
-    documentation: 'Liste over tiltak / Avfallsplan.',
-    projectFollowUp: 'Avfallsplan godkjent. Tiltak: prefabrikerte elementer, BIM-koordinering, materiallager.',
+    documentation: 'Dokumentasjon for transportleveransene i avtalt mappe.',
+    projectFollowUp: 'Avtale med Ragn-Sells om el-lastebiler. Volvo FM Electric brukt for all massetransport.',
+    phase: 'Utførelse'
+  },
+  {
+    id: 'klima-7',
+    category: 'KLIMAGASSUTSLIPP OG ENERGI',
+    requirement: 'Biodrivstoff',
+    description: 'Biodrivstoff skal være dokumentert bærekraftig. Ikke palmeolje eller biprodukter fra palmeoljeproduksjon.',
+    status: MopStatus.FERDIG,
+    documentation: 'Gyldig, godkjent dokumentasjon fra drivstoffleverandør.',
+    projectFollowUp: 'HVO100 fra Eco-1. Sertifikat for bærekraft vedlagt.',
+    phase: 'Utførelse'
+  },
+  {
+    id: 'klima-8',
+    category: 'KLIMAGASSUTSLIPP OG ENERGI',
+    requirement: 'Kuldemedier',
+    description: 'Ved installasjon av varmepumper skal naturlige kuldemedier benyttes.',
+    status: MopStatus.NOT_RELEVANT,
+    documentation: 'Risikovurdering av kuldemedium.',
+    projectFollowUp: 'Ingen varmepumpe i prosjektet - kun fjernvarme.',
+    phase: 'Før utførelse'
+  },
+  // ==========================================
+  // MATERIALER OG AVFALL
+  // ==========================================
+  {
+    id: 'material-1',
+    category: 'MATERIALER OG AVFALL',
+    requirement: 'Miljøkartlegging',
+    description: 'Det skal utføres miljøkartlegging av helse- og miljøfarlige stoffer i eksisterende bygg (TEK17 § 9-7).',
+    status: MopStatus.NOT_RELEVANT,
+    documentation: 'Miljøsaneringsbeskrivelse med evt. analyserapporter.',
+    projectFollowUp: 'Nybygg - ingen eksisterende konstruksjoner å kartlegge.',
     phase: 'Før utførelse'
   },
   {
-    id: 'avfall-2',
-    category: 'AVFALLSHÅNDTERING',
+    id: 'material-2',
+    category: 'MATERIALER OG AVFALL',
+    requirement: 'Ombrukskartlegging',
+    description: 'Det skal kartlegges om bygningsfraksjoner som fjernes er egnet for ombruk (TEK17 § 9-7).',
+    status: MopStatus.NOT_RELEVANT,
+    documentation: 'Ombrukskartlegging i LoopFront.',
+    projectFollowUp: 'Nybygg - ingen fraksjoner å kartlegge.',
+    phase: 'Før utførelse'
+  },
+  {
+    id: 'material-3',
+    category: 'MATERIALER OG AVFALL',
+    requirement: 'Ombruksplan',
+    description: 'Det skal utarbeides plan for hvilke materialer som kan ombrukes og materialgjenvinnes.',
+    status: MopStatus.NOT_RELEVANT,
+    documentation: 'Oversikt over materialer/komponenter som kan ombrukes.',
+    projectFollowUp: 'Nybygg - ikke relevant.',
+    phase: 'Før utførelse'
+  },
+  {
+    id: 'material-4',
+    category: 'MATERIALER OG AVFALL',
+    requirement: 'Ombruk av komponenter',
+    description: 'Minst 2 ulike komponenttyper i prosjektet skal være ombrukte.',
+    status: MopStatus.FERDIG,
+    documentation: 'Utfylt fane sluttrapportering. Relevant dokumentasjon i FDV.',
+    projectFollowUp: '1) Ombrukte dører fra Ombygg Økern (24 stk). 2) Ombrukte systemhimlinger fra LoopFront.',
+    phase: 'Før utførelse'
+  },
+  {
+    id: 'material-5',
+    category: 'MATERIALER OG AVFALL',
+    requirement: 'Emisjoner til inneluft',
+    description: 'Det skal benyttes lavemitterende materialer på alle materialene innenfor dampsperren (NS 16798).',
+    status: MopStatus.FERDIG,
+    documentation: 'Dokumentasjon iht. krav i arkfanen "Emisjonskrav".',
+    projectFollowUp: 'Alle produkter dokumentert i Cobuilder med HEA02-filter. Se Emisjonskrav-fanen.',
+    phase: 'Før utførelse'
+  },
+  {
+    id: 'material-6',
+    category: 'MATERIALER OG AVFALL',
+    requirement: 'Helse- og miljøfarlige stoffer',
+    description: 'Produkter med stoffer på prioritetsliste/REACH skal ikke benyttes. Komplette sikkerhetsdatablad kreves.',
+    status: MopStatus.FERDIG,
+    documentation: 'Sikkerhetsdatablader. Utskrift fra digitalt stoffkartotek.',
+    projectFollowUp: 'Stoffkartotek i Cobuilder med MAT02-filter. 3 substitusjonsvurderinger gjennomført.',
+    phase: 'Før utførelse'
+  },
+  {
+    id: 'material-7',
+    category: 'MATERIALER OG AVFALL',
+    requirement: 'A20-sjekkliste',
+    description: 'Produkter skal ikke inneholde helse- og miljøfarlige stoffer iht. A20-sjekklisten.',
+    status: MopStatus.FERDIG,
+    documentation: 'Se fane "Farlige Stoffer" for detaljer.',
+    projectFollowUp: 'Alle 10 stoffgrupper dokumentert. Ingen avvik.',
+    phase: 'Utførelse'
+  },
+  {
+    id: 'material-8',
+    category: 'MATERIALER OG AVFALL',
+    requirement: 'Treverk',
+    description: 'Trevirke skal være fra FSC- eller PEFC-sertifisert skog. Ikke regnskog.',
+    status: MopStatus.FERDIG,
+    documentation: 'Faktura/følgeseddel med sertifikatnummer.',
+    projectFollowUp: 'Alt trevirke fra Moelven (PEFC). Sertifikatnr: PEFC/05-22-02.',
+    phase: 'Utførelse'
+  },
+  {
+    id: 'material-9',
+    category: 'MATERIALER OG AVFALL',
+    requirement: 'Plast',
+    description: 'Plastemballasje skal minimeres. Tiltak mot plastavfall på avveie.',
+    status: MopStatus.IVARETATT,
+    documentation: 'Entreprenørens avvikslogg. Referat verne-/miljørunder.',
+    projectFollowUp: 'Ukentlig kontroll på miljørunde. 2 mindre avvik håndtert. Gjenvinningsgrad 89%.',
+    phase: 'Utførelse'
+  },
+  {
+    id: 'material-10',
+    category: 'MATERIALER OG AVFALL',
+    requirement: 'Avfallsminimering',
+    description: 'Avfallsminimering skal være tema fra prosjektering til ferdigstillelse.',
+    status: MopStatus.FERDIG,
+    documentation: 'Liste over avfallsreduserende tiltak. Avfallsplan.',
+    projectFollowUp: '7 tiltak implementert: prefab, BIM, materiallager, retursystemer, kapping på fabrikk, etc.',
+    phase: 'Før utførelse'
+  },
+  {
+    id: 'material-11',
+    category: 'MATERIALER OG AVFALL',
     requirement: 'Sluttrapport for avfall',
     description: 'Sluttrapport som viser faktisk disponering av avfallet (TEK17 § 9-9).',
     status: MopStatus.STARTED,
-    documentation: 'Sluttrapport (blankett 5178 / 5179).',
+    documentation: 'Sluttrapport for avfall (blankett 5178/5179).',
     projectFollowUp: 'Løpende registrering i Avfall+ system. Sluttrapport genereres ved prosjektslutt.',
-    phase: 'Etter utførelse'
+    phase: 'Utførelse'
   },
   {
-    id: 'avfall-3',
-    category: 'AVFALLSHÅNDTERING',
-    requirement: 'Kildesorteringsgrad',
+    id: 'material-12',
+    category: 'MATERIALER OG AVFALL',
+    requirement: 'Kildesortering og materialgjenvinning',
     description: 'Kildesorteringsgrad på minst 90 %. Mål om 70 % materialgjenvinning.',
     status: MopStatus.IVARETATT,
-    documentation: 'Dokumenteres i sluttrapport.',
-    projectFollowUp: 'Aktuell sorteringsgrad: 94%. Materialgjenvinning: 72%. Månedlig oppfølging.',
-    phase: 'Utførelse'
-  },
-  {
-    id: 'avfall-4',
-    category: 'AVFALLSHÅNDTERING',
-    requirement: 'Ombruk',
-    description: 'Gjennomføre ombrukskartlegging. Egnede materialer skal ombrukes.',
-    status: MopStatus.NOT_RELEVANT,
-    documentation: 'Rapport fra ombrukskartlegging.',
-    projectFollowUp: 'Nybygg - ingen eksisterende materialer for ombruk.',
-    phase: 'Før utførelse'
-  },
-  // FARLIGE STOFFER
-  {
-    id: 'kjemi-1',
-    category: 'FARLIGE STOFFER',
-    requirement: 'Substitusjonsplikt',
-    description: 'Vurdere om farlige stoffer kan erstattes med mindre farlige alternativer.',
-    status: MopStatus.FERDIG,
-    documentation: 'Vurdering av alternativer skal foreligge.',
-    projectFollowUp: 'Substitusjonsanalyse gjennomført. 3 produkter byttet til lavemitterende alternativer.',
-    phase: 'Prosjektering'
-  },
-  {
-    id: 'kjemi-2',
-    category: 'FARLIGE STOFFER',
-    requirement: 'Stoffkartotek',
-    description: 'Lovpålagt stoffkartotek skal være tilgjengelig på byggeplass.',
-    status: MopStatus.FERDIG,
-    documentation: 'Bekreftelse på opprettet stoffkartotek.',
-    projectFollowUp: 'Stoffkartotek opprettet i ECOonline. QR-koder på alle kjemikalieskap.',
-    phase: 'Utførelse'
-  },
-  {
-    id: 'kjemi-3',
-    category: 'FARLIGE STOFFER',
-    requirement: 'Sjekkliste A20',
-    description: 'Stoffene i sjekklisten (A20) skal unngås. Dokumentasjon skal leveres.',
-    status: MopStatus.FERDIG,
-    documentation: 'Se fane "Farlige Stoffer" for detaljer.',
-    projectFollowUp: 'Alle A20-stoffer dokumentert unngått. Datablader verifisert.',
-    phase: 'Innkjøp'
-  },
-  // YTRE MILJØ
-  {
-    id: 'ytre-1',
-    category: 'YTRE MILJØ',
-    requirement: 'Støyende arbeider',
-    description: 'Varsling av naboer iht. støyforskrift.',
-    status: MopStatus.FERDIG,
-    documentation: 'Kopi av nabovarsel.',
-    projectFollowUp: 'Nabovarsel sendt 01.02.2024. Ingen klager mottatt.',
-    phase: 'Utførelse'
-  },
-  {
-    id: 'ytre-2',
-    category: 'YTRE MILJØ',
-    requirement: 'Støvflukt',
-    description: 'Tiltak for å hindre støvflukt (vanning, feiing).',
-    status: MopStatus.IVARETATT,
-    documentation: 'Rutiner for renhold.',
-    projectFollowUp: 'Daglig feiing av adkomstvei. Vanning ved tørre forhold. HMS-sjekk ukentlig.',
+    documentation: 'Sluttrapport for avfall (blankett 5178/5179).',
+    projectFollowUp: 'Aktuell sorteringsgrad: 94%. Materialgjenvinning: 73%. Månedlig oppfølging.',
     phase: 'Utførelse'
   }
 ];
