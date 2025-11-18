@@ -12,7 +12,7 @@ export function ChemicalsTab() {
     <div className="space-y-6">
       <div className="bg-white p-6 rounded-xl border shadow-sm">
         <h2 className="text-lg font-bold text-slate-900 mb-1">Farlige Stoffer - Sjekkliste A20</h2>
-        <p className="text-sm text-slate-500">Disse stoffene skal ungaas. Dokumenter fravar for relevante produkter.</p>
+        <p className="text-sm text-slate-500">Disse stoffene skal unngås. Dokumenter fravær for relevante produkter.</p>
       </div>
 
       <div className="bg-white rounded-xl border shadow-sm overflow-hidden">

@@ -3,7 +3,7 @@ import { EmissionCategory, EmissionEntry } from '@/types';
 export const EMISSION_MATRIX: EmissionCategory[] = [
   {
     id: 'cat-paint',
-    name: 'Innendors maling og overflatebehandling',
+    name: 'Innendørs maling og overflatebehandling',
     acceptedLabels: ['M1', 'Svanemerket', 'EU-Ecolabel', 'Indoor Air Comfort Gold', 'EC1 Plus']
   },
   {
@@ -18,7 +18,7 @@ export const EMISSION_MATRIX: EmissionCategory[] = [
   },
   {
     id: 'cat-sealant',
-    name: 'Lim og tetningsmidler (innendors)',
+    name: 'Lim og tetningsmidler (innendørs)',
     acceptedLabels: ['M1', 'EC1 Plus', 'EC1', 'Svanemerket', 'Indoor Air Comfort Gold']
   },
   {
@@ -28,7 +28,7 @@ export const EMISSION_MATRIX: EmissionCategory[] = [
   },
   {
     id: 'cat-insulation',
-    name: 'Isolasjonsprodukter (innendors)',
+    name: 'Isolasjonsprodukter (innendørs)',
     acceptedLabels: ['M1', 'Eurofins Gold', 'Indoor Air Comfort Gold']
   },
   {
@@ -50,7 +50,7 @@ export const ALL_EMISSION_LABELS = [
   "German Blue Angel",
   "Eurofins Gold",
   "Sinus (Sintef)",
-  "Annen / Egenerklaring"
+  "Annen / Egenerklæring"
 ];
 
 export const INITIAL_EMISSION_ENTRIES: EmissionEntry[] = [

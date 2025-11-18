@@ -31,7 +31,7 @@ export function EmissionsTab() {
         </p>
         <div className="bg-blue-50 text-blue-800 p-3 rounded text-xs flex gap-2">
           <Wind className="w-4 h-4" />
-          Gyldig dok: Sertifisering (se matrise) eller egenerklaring basert pa ISO 16000 test.
+          Gyldig dok: Sertifisering (se matrise) eller egenerklæring basert på ISO 16000 test.
         </div>
       </div>
 
@@ -42,7 +42,7 @@ export function EmissionsTab() {
               <tr>
                 <th className="p-4 w-1/3">Produktkategori</th>
                 <th className="p-4 w-1/3">Produktnavn</th>
-                <th className="p-4 w-1/4">Miljomerke / Dok</th>
+                <th className="p-4 w-1/4">Miljømerke / Dok</th>
                 <th className="p-4 w-32">Status</th>
               </tr>
             </thead>
@@ -50,7 +50,7 @@ export function EmissionsTab() {
               {emissionEntries.map(entry => {
                 const category = EMISSION_MATRIX.find(c => c.id === entry.categoryId);
                 const isValidLabel = category?.acceptedLabels.includes(entry.label);
-                const isCustom = entry.label === "Annen / Egenerklaring";
+                const isCustom = entry.label === "Annen / Egenerklæring";
 
                 return (
                   <tr key={entry.id} className="hover:bg-slate-50 transition-colors">

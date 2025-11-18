@@ -38,7 +38,7 @@ export function MopTable() {
         <Search className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
         <input
           type="text"
-          placeholder="Sok i krav..."
+          placeholder="Søk i krav..."
           className="w-full pl-10 pr-4 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none"
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
@@ -113,7 +113,7 @@ export function MopTable() {
                         </div>
                         <div className="space-y-1.5">
                           <label className="block text-xs font-semibold text-slate-700">
-                            Prosjektets oppfolging (Kolonne F)
+                            Prosjektets oppfølging (Kolonne F)
                           </label>
                           <textarea
                             className="w-full p-3 border rounded-lg text-sm h-32 shadow-sm focus:ring-2 focus:ring-blue-500"

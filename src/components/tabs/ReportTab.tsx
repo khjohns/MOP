@@ -59,7 +59,7 @@ export function ReportTab() {
               Sluttrapport MOP
             </h2>
             <p className="text-sm text-slate-500 mt-1">
-              Generer og eksporter miljooppfolgingsplan for prosjektet
+              Generer og eksporter miljøoppfølgingsplan for prosjektet
             </p>
           </div>
           <button
@@ -87,17 +87,17 @@ export function ReportTab() {
           ) : (
             <>
               <AlertTriangle className="w-5 h-5 text-amber-600" />
-              <span className="font-medium text-amber-800">Det er utelukket oppgaver som ma fullf ores for rapporten</span>
+              <span className="font-medium text-amber-800">Det er oppgaver som må fullføres før rapporten</span>
             </>
           )}
         </div>
         {!reportData.isReadyForReport && (
           <ul className="mt-2 text-sm text-amber-700 list-disc list-inside">
             {reportData.mopStats.notStarted > 0 && (
-              <li>{reportData.mopStats.notStarted} MOP-krav er ikke pabegynt</li>
+              <li>{reportData.mopStats.notStarted} MOP-krav er ikke påbegynt</li>
             )}
             {reportData.epdStats.withWarnings > 0 && (
-              <li>{reportData.epdStats.withWarnings} EPD-oppforinger mangler begrunnelse</li>
+              <li>{reportData.epdStats.withWarnings} EPD-oppføringer mangler begrunnelse</li>
             )}
           </ul>
         )}
@@ -131,14 +131,14 @@ export function ReportTab() {
         <div className="space-y-4">
           {/* MOP Summary */}
           <div className="p-4 bg-slate-50 rounded-lg">
-            <h4 className="font-medium text-slate-800 mb-2">MOP Oppfolging</h4>
+            <h4 className="font-medium text-slate-800 mb-2">MOP Oppfølging</h4>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
               <div>
                 <div className="text-slate-500">Totalt</div>
                 <div className="font-bold">{reportData.mopStats.total}</div>
               </div>
               <div>
-                <div className="text-slate-500">Fullfort</div>
+                <div className="text-slate-500">Fullført</div>
                 <div className="font-bold text-green-600">{reportData.mopStats.completed}</div>
               </div>
               <div>
@@ -146,7 +146,7 @@ export function ReportTab() {
                 <div className="font-bold text-amber-600">{reportData.mopStats.inProgress}</div>
               </div>
               <div>
-                <div className="text-slate-500">Ikke pabegynt</div>
+                <div className="text-slate-500">Ikke påbegynt</div>
                 <div className="font-bold text-red-600">{reportData.mopStats.notStarted}</div>
               </div>
             </div>
@@ -210,7 +210,7 @@ export function ReportTab() {
           <div className="p-4 border-2 border-dashed rounded-lg">
             <div className="flex items-center gap-2 mb-3">
               <User className="w-4 h-4 text-slate-400" />
-              <span className="text-sm font-medium text-slate-700">Entreprenor</span>
+              <span className="text-sm font-medium text-slate-700">Entreprenør</span>
             </div>
             <input
               type="text"

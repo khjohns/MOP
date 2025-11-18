@@ -180,7 +180,7 @@ export function EpdCalculator() {
                     </label>
                     <textarea
                       className="w-full border border-amber-200 rounded p-2 text-sm mt-1 focus:ring-amber-500 focus:border-amber-500"
-                      placeholder="Hvorfor ble dette valgt til tross for hoyere utslipp?"
+                      placeholder="Hvorfor ble dette valgt til tross for høyere utslipp?"
                       value={entry.justification}
                       onChange={(e) => updateEpdEntry(entry.id, 'justification', e.target.value)}
                     />
