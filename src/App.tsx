@@ -7,7 +7,9 @@ import {
   FileText,
   Save,
   FileDown,
-  Wind
+  Wind,
+  Database,
+  RotateCcw
 } from 'lucide-react';
 import { AppProvider, useApp } from '@/context/AppContext';
 import {
@@ -22,7 +24,7 @@ import { TabId } from '@/types';
 
 function AppContent() {
   const [activeTab, setActiveTab] = useState<TabId>('dashboard');
-  const { projectName } = useApp();
+  const { projectName, fillWithExample, resetData } = useApp();
 
   const tabs = [
     { id: 'dashboard' as TabId, label: 'Oversikt', icon: LayoutDashboard },
@@ -58,7 +60,19 @@ function AppContent() {
               <div className="text-xs text-slate-500 font-medium">Prosjekt: {projectName}</div>
             </div>
           </div>
-          <div className="flex gap-3">
+          <div className="flex gap-2">
+            <button
+              onClick={fillWithExample}
+              className="hidden md:flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-emerald-700 hover:bg-emerald-50 rounded-md border border-emerald-200"
+            >
+              <Database className="w-4 h-4" /> Fyll med eksempel
+            </button>
+            <button
+              onClick={resetData}
+              className="hidden md:flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-slate-600 hover:bg-slate-100 rounded-md"
+            >
+              <RotateCcw className="w-4 h-4" /> Nullstill
+            </button>
             <button
               onClick={handleExport}
               className="hidden md:flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-slate-600 hover:bg-slate-100 rounded-md"
