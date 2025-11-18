@@ -10,7 +10,11 @@ import {
   INITIAL_MOP_DATA,
   INITIAL_EPD_ENTRIES,
   createInitialChemicalEntries,
-  INITIAL_EMISSION_ENTRIES
+  INITIAL_EMISSION_ENTRIES,
+  EXAMPLE_MOP_DATA,
+  EXAMPLE_EPD_ENTRIES,
+  EXAMPLE_CHEMICAL_ENTRIES,
+  EXAMPLE_EMISSION_ENTRIES
 } from '@/data';
 
 interface AppContextType {
@@ -38,6 +42,10 @@ interface AppContextType {
 
   // Statistics
   getMopStats: () => { total: number; completed: number; notRelevant: number };
+
+  // Data management
+  fillWithExample: () => void;
+  resetData: () => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -88,6 +96,22 @@ export function AppProvider({ children }: { children: ReactNode }) {
     return { total, completed, notRelevant };
   };
 
+  const fillWithExample = () => {
+    setProjectName('Nytt Kontorbygg Oslo');
+    setMopItems(EXAMPLE_MOP_DATA);
+    setEpdEntries(EXAMPLE_EPD_ENTRIES);
+    setChemicalEntries(EXAMPLE_CHEMICAL_ENTRIES);
+    setEmissionEntries(EXAMPLE_EMISSION_ENTRIES);
+  };
+
+  const resetData = () => {
+    setProjectName('Nytt Prosjekt');
+    setMopItems(INITIAL_MOP_DATA);
+    setEpdEntries(INITIAL_EPD_ENTRIES);
+    setChemicalEntries(createInitialChemicalEntries());
+    setEmissionEntries(INITIAL_EMISSION_ENTRIES);
+  };
+
   return (
     <AppContext.Provider value={{
       projectName,
@@ -106,7 +130,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
       updateEmissionEntry,
       addEpdEntry,
       addEmissionEntry,
-      getMopStats
+      getMopStats,
+      fillWithExample,
+      resetData
     }}>
       {children}
     </AppContext.Provider>
