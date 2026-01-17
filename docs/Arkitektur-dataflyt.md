@@ -29,11 +29,31 @@ Dette dokumentet beskriver anbefalt arkitektur og dataflyt for API-integrasjoner
 │         │                │                │                │                │
 │         └────────────────┴────────────────┴────────────────┘                │
 │                                   │                                         │
+├───────────────────────────────────┼─────────────────────────────────────────┤
+│                      OFFENTLIGE DATAKILDER                                  │
+├───────────────────────────────────┼─────────────────────────────────────────┤
+│                                   │                                         │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐        │
+│  │ KARTVERKET  │  │MILJØDIR.    │  │    SSB      │  │    NVE      │        │
+│  │             │  │             │  │             │  │             │        │
+│  │ • Matrikkel │  │ • NIR       │  │ • Utslipps- │  │ • Strømmiks │        │
+│  │ • Rute-     │  │ • Utslipps- │  │   faktorer  │  │ • Energi-   │        │
+│  │   planlegger│  │   faktorer  │  │ • Benchmark │  │   merke     │        │
+│  │ • Høydedata │  │ • Produkt-  │  │ • Avfall    │  │             │        │
+│  │             │  │   forskrift │  │             │  │             │        │
+│  └──────┬──────┘  └──────┬──────┘  └──────┬──────┘  └──────┬──────┘        │
+│         │                │                │                │                │
+│         └────────────────┴────────────────┴────────────────┘                │
+│                                   │                                         │
 │                                   ▼                                         │
 │  ┌─────────────────────────────────────────────────────────────────────┐   │
 │  │                        API SERVICE LAYER                            │   │
 │  │  ┌───────────┐  ┌───────────┐  ┌───────────┐  ┌───────────┐        │   │
 │  │  │ catenda   │  │ epdNorge  │  │ ecoPortal │  │ oneClick  │        │   │
+│  │  │ Service   │  │ Service   │  │ Service   │  │ Service   │        │   │
+│  │  └───────────┘  └───────────┘  └───────────┘  └───────────┘        │   │
+│  │  ┌───────────┐  ┌───────────┐  ┌───────────┐  ┌───────────┐        │   │
+│  │  │kartverket │  │ miljødir  │  │   ssb     │  │   nve     │        │   │
 │  │  │ Service   │  │ Service   │  │ Service   │  │ Service   │        │   │
 │  │  └───────────┘  └───────────┘  └───────────┘  └───────────┘        │   │
 │  └─────────────────────────────────────────────────────────────────────┘   │
@@ -45,6 +65,10 @@ Dette dokumentet beskriver anbefalt arkitektur og dataflyt for API-integrasjoner
 │  │  │  bimToEpd     │  │  epdLookup    │  │ chemicalCheck │           │   │
 │  │  │  Adapter      │  │  Adapter      │  │ Adapter       │           │   │
 │  │  └───────────────┘  └───────────────┘  └───────────────┘           │   │
+│  │  ┌───────────────┐  ┌───────────────┐  ┌───────────────┐           │   │
+│  │  │ transportCalc │  │ normalization │  │ emissionFactor│           │   │
+│  │  │ Adapter (A4)  │  │ Adapter       │  │ Adapter       │           │   │
+│  │  └───────────────┘  └───────────────┘  └───────────────┘           │   │
 │  └─────────────────────────────────────────────────────────────────────┘   │
 │                                   │                                         │
 │                                   ▼                                         │
@@ -55,6 +79,8 @@ Dette dokumentet beskriver anbefalt arkitektur og dataflyt for API-integrasjoner
 │  │  │  - EPD-oppslag (TTL: 24 timer)                            │     │   │
 │  │  │  - Produktgrupper (TTL: 7 dager)                          │     │   │
 │  │  │  - BIM-elementer (per prosjekt)                           │     │   │
+│  │  │  - Utslippsfaktorer (TTL: 30 dager)                       │     │   │
+│  │  │  - Arealdata (TTL: 90 dager)                              │     │   │
 │  │  └───────────────────────────────────────────────────────────┘     │   │
 │  └─────────────────────────────────────────────────────────────────────┘   │
 │                                   │                                         │
@@ -67,10 +93,12 @@ Dette dokumentet beskriver anbefalt arkitektur og dataflyt for API-integrasjoner
 │                                                                             │
 │  ┌─────────────────────────────────────────────────────────────────────┐   │
 │  │                      AppContext (State)                             │   │
+│  │  ├── projectInfo: ProjectInfo        # Areal, lokasjon fra Kartv.  │   │
 │  │  ├── mopItems: MopItem[]                                            │   │
 │  │  ├── epdEntries: EpdEntry[]                                         │   │
 │  │  ├── chemicalEntries: ChemicalCheckEntry[]                          │   │
-│  │  └── emissionEntries: EmissionEntry[]                               │   │
+│  │  ├── emissionEntries: EmissionEntry[]                               │   │
+│  │  └── emissionFactors: EmissionFactors   # Fra Miljødir./SSB        │   │
 │  └─────────────────────────────────────────────────────────────────────┘   │
 │                                   │                                         │
 │         ┌─────────────────────────┼─────────────────────────┐              │
@@ -95,14 +123,14 @@ Dette dokumentet beskriver anbefalt arkitektur og dataflyt for API-integrasjoner
 
 ### Tab-oversikt med API-koblinger
 
-| Tab | Komponent | Primær API | Sekundær API | Funksjon |
-|-----|-----------|------------|--------------|----------|
-| **Dashboard** | `Dashboard.tsx` | Ingen | - | Aggregerer data fra alle tabs |
-| **MOP Oppfølging** | `MopTable.tsx` | Catenda BCF* | - | Avviksrapportering |
-| **Materialer & EPD** | `EpdCalculator.tsx` | EPD-Norge | ECO Portal, Catenda | Klimagassregnskap |
-| **Farlige Stoffer** | `ChemicalsTab.tsx` | Cobuilder* | NOBB* | A20-sjekkliste |
-| **Emisjonskrav** | `EmissionsTab.tsx` | Cobuilder* | - | Merkevalidering |
-| **Sluttrapport** | `ReportTab.tsx` | Ingen | - | PDF-generering |
+| Tab | Komponent | Primær API | Sekundær API | Offentlige kilder | Funksjon |
+|-----|-----------|------------|--------------|-------------------|----------|
+| **Dashboard** | `Dashboard.tsx` | Ingen | - | Kartverket (normalisering) | Aggregerer data, kg CO2/m² |
+| **MOP Oppfølging** | `MopTable.tsx` | Catenda BCF* | - | - | Avviksrapportering |
+| **Materialer & EPD** | `EpdCalculator.tsx` | EPD-Norge | ECO Portal, Catenda | Miljødir. (A4-A5), SSB (fallback) | Klimagassregnskap |
+| **Farlige Stoffer** | `ChemicalsTab.tsx` | Cobuilder* | NOBB* | Miljødir. (Produktforskrift) | A20-sjekkliste |
+| **Emisjonskrav** | `EmissionsTab.tsx` | Cobuilder* | - | - | Merkevalidering |
+| **Sluttrapport** | `ReportTab.tsx` | Ingen | - | Kartverket (kartutsnitt) | PDF-generering |
 
 *Fase 2 integrasjon
 
@@ -312,6 +340,84 @@ Dette dokumentet beskriver anbefalt arkitektur og dataflyt for API-integrasjoner
        │                          │                            │
 ```
 
+### Fase 1: A4 Transportberegning (med Kartverket)
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                 A4 TRANSPORTBEREGNING DATAFLYT                              │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+     BRUKER                    FRONTEND                    OFFENTLIGE API
+       │                          │                            │
+       │  1. Legger inn leverandør│                            │
+       │  (navn/adresse)          │                            │
+       │─────────────────────────▶│                            │
+       │                          │                            │
+       │                          │  2. Geokod adresse         │
+       │                          │───────────────────────────▶│ KARTVERKET
+       │                          │                            │ (adresse-API)
+       │                          │  3. Koordinater            │
+       │                          │◀───────────────────────────│
+       │                          │                            │
+       │                          │  4. Beregn rute til        │
+       │                          │  byggeplass                │
+       │                          │───────────────────────────▶│ KARTVERKET
+       │                          │                            │ (ruteplan)
+       │                          │  5. Avstand (km) + tid     │
+       │                          │◀───────────────────────────│
+       │                          │                            │
+       │                          │  6. Hent utslippsfaktor    │
+       │                          │───────────────────────────▶│ MILJØDIR.
+       │                          │                            │ (NIR-data)
+       │                          │  7. kg CO2/tonnkm          │
+       │                          │◀───────────────────────────│
+       │                          │                            │
+       │                          │  8. Beregn A4-utslipp:     │
+       │                          │  mengde(tonn) × avstand(km)│
+       │                          │  × faktor(kg CO2/tonnkm)   │
+       │                          │                            │
+       │  9. Vis A4-resultat      │                            │
+       │  per material            │                            │
+       │◀─────────────────────────│                            │
+       │                          │                            │
+```
+
+### Fase 1: Normalisering (kg CO2/m²)
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                 NORMALISERING DATAFLYT                                      │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+     BRUKER                    FRONTEND                    KARTVERKET
+       │                          │                            │
+       │  1. Oppgir gnr/bnr       │                            │
+       │  eller adresse           │                            │
+       │─────────────────────────▶│                            │
+       │                          │                            │
+       │                          │  2. Slå opp i Matrikkelen  │
+       │                          │───────────────────────────▶│
+       │                          │                            │
+       │                          │  3. Bygningsdata           │
+       │                          │  - BRA (bruksareal)        │
+       │                          │  - Bygningstype            │
+       │                          │  - Kommune                 │
+       │                          │◀───────────────────────────│
+       │                          │                            │
+       │  4. Vis prosjektinfo     │                            │
+       │  (kan overskrives)       │                            │
+       │◀─────────────────────────│                            │
+       │                          │                            │
+       │                          │  5. Dashboard beregner:    │
+       │                          │  Total CO2 / BRA =         │
+       │                          │  kg CO2/m²                 │
+       │                          │                            │
+       │  6. Dashboard viser      │                            │
+       │  kg CO2/m² vs grense     │                            │
+       │◀─────────────────────────│                            │
+       │                          │                            │
+```
+
 ---
 
 ## Foreslått mappestruktur
@@ -360,6 +466,10 @@ src/
 │   │   ├── epdNorge.ts             # EPD-Norge API-klient
 │   │   ├── ecoPortal.ts            # ECO Portal API-klient
 │   │   ├── cobuilder.ts            # Cobuilder API-klient (Fase 2)
+│   │   ├── kartverket.ts           # Kartverket API (matrikkel, rute)
+│   │   ├── miljodirektoratet.ts    # Miljødirektoratet (utslippsfaktorer)
+│   │   ├── ssb.ts                  # SSB API (statistikk, fallback)
+│   │   ├── nve.ts                  # NVE API (strømmiks)
 │   │   ├── types.ts                # API response types
 │   │   └── index.ts
 │   │
@@ -367,11 +477,16 @@ src/
 │   │   ├── bimToEpd.ts             # IFC element → EpdEntry
 │   │   ├── epdLookup.ts            # EPD søk → EpdEntry
 │   │   ├── chemicalCheck.ts        # Produkt → ChemicalEntry
+│   │   ├── transportCalc.ts        # A4 transportberegning med Kartverket
+│   │   ├── normalization.ts        # kg CO2 → kg CO2/m² via Kartverket
+│   │   ├── emissionFactors.ts      # Hent faktorer fra Miljødir./SSB
 │   │   └── index.ts
 │   │
 │   └── cache/
 │       ├── epdCache.ts             # LocalStorage cache for EPD
 │       ├── bimCache.ts             # IndexedDB cache for BIM
+│       ├── factorCache.ts          # Cache for utslippsfaktorer (TTL: 30d)
+│       ├── geoCache.ts             # Cache for arealdata (TTL: 90d)
 │       └── index.ts
 │
 ├── hooks/                          # NY: Custom hooks
@@ -422,12 +537,48 @@ export type EpdDataSource =
   | 'catenda'
   | 'epd-norge'
   | 'eco-portal'
-  | 'oneclicklca-generic';
+  | 'oneclicklca-generic'
+  | 'ssb-generic'           // SSB bransjesnitt
+  | 'miljodirektoratet';    // Offisielle utslippsfaktorer
 
 export type DataConfidence =
   | 'verified'    // Produkt-spesifikk EPD
-  | 'generic'     // Bransjesnitt
+  | 'generic'     // Bransjesnitt (SSB, One Click LCA)
+  | 'official'    // Offisiell kilde (Miljødirektoratet)
   | 'estimated';  // Manuelt estimat
+
+// Ny type for prosjektinformasjon fra Kartverket
+export interface ProjectInfo {
+  gnr: string;
+  bnr: string;
+  address: string;
+  municipality: string;
+  municipalityCode: string;
+  coordinates: { lat: number; lng: number };
+  totalArea: number;           // m² tomt
+  bra: number;                 // m² BRA (bruksareal)
+  dataSource: 'kartverket' | 'manual';
+  lastUpdated: Date;
+}
+
+// Ny type for utslippsfaktorer
+export interface EmissionFactors {
+  // Transport (A4)
+  transportDiesel: number;     // kg CO2/liter
+  transportPerTonKm: number;   // kg CO2/tonnkm
+
+  // Byggeplass (A5)
+  dieselConstruction: number;  // kg CO2/liter
+  electricityNorway: number;   // kg CO2/kWh
+
+  // Avfall (C3-C4)
+  wasteToLandfill: number;     // kg CO2/tonn
+  wasteToRecycling: number;    // kg CO2/tonn (ofte negativ = kreditt)
+
+  source: 'miljodirektoratet' | 'ssb';
+  validFrom: Date;
+  validUntil: Date;
+}
 ```
 
 ### API Service eksempel (EPD-Norge)
