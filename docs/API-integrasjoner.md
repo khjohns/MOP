@@ -1,6 +1,6 @@
 # API-integrasjoner for MOP
 
-> Sist oppdatert: Januar 2025
+> Sist oppdatert: Januar 2026
 
 Dette dokumentet beskriver anbefalte API-integrasjoner for MOP (Miljøoppfølgingsplan) applikasjonen, med vurdering av tilgjengelighet, prising og egnethet.
 
@@ -99,20 +99,23 @@ ECO Portal fungerer som fallback for importerte produkter som ikke har norsk EPD
 | Egenskap | Verdi |
 |----------|-------|
 | **Tilgjengelighet** | API-tilgang må forespørres (api@oneclicklca.com) |
-| **Prising** | Betalt, del av lisensavtale (Designer/Expert/Enterprise) |
+| **Prising** | Ikke offentlig; planer: Designer → Expert Pack → Power Pack |
 | **API-type** | REST |
-| **Dokumentasjon** | Begrenset offentlig tilgjengelig |
+| **Dokumentasjon** | https://help.oneclicklca.com/en/collections/647546-enterprise-integrations |
+| **Lisensmodell** | Named user eller concurrent (3 brukere deler 1 lisens) |
 
 **Styrker:**
 - Verdens største LCA-database (500 000+ datapunkter)
 - 140+ standarder inkludert norske (NS 3720)
 - AI-powered beregninger
 - 80+ sertifiseringer støttet (BREEAM, LEED, etc.)
+- 20+ integrasjoner: Revit, Tekla, IFC, SAP S/4HANA, Bentley iTwin
 
 **Svakheter:**
-- API-dokumentasjon ikke offentlig
-- Krever Enterprise-lisens for API-tilgang
-- Dyrt for små prosjekter
+- API-dokumentasjon kun for kunder
+- Krever Enterprise-avtale for API-tilgang
+- Dyrt – brukere rapporterer årlig forhåndsbetaling
+- Priser ikke offentlige, må be om tilbud
 
 **Egnethet for MOP:** ⭐⭐⭐⭐
 
@@ -140,19 +143,36 @@ Kostnad er hovedbarrieren. For mindre prosjekter kan manuell eksport fra One Cli
 | Egenskap | Verdi |
 |----------|-------|
 | **Tilgjengelighet** | Åpen dokumentasjon |
-| **Prising** | Betalt (krever Cobuilder Supply/Collaborate-lisens) |
+| **Prising** | Collaborate: omsetningsbasert NOK 0–59 100/år (se tabell) |
 | **API-type** | REST + GraphQL (Define API) |
 | **Dokumentasjon** | https://developer.cobuilder.com/ |
+| **Nye vilkår** | Fra 1. april 2025 (nye kunder) / 1. mai 2025 (eksisterende) |
+
+**Collaborate prismodell (fra august 2025):**
+
+| Omsetning (NOK) | Årspris |
+|-----------------|---------|
+| 0–1 mill | Gratis |
+| 1–5 mill | 6 000 |
+| 5–10 mill | 9 900 |
+| 10–20 mill | 14 600 |
+| 20–50 mill | 20 400 |
+| 50–100 mill | 32 100 |
+| 100–200 mill | 44 400 |
+| 200–500 mill | 59 100 |
+| 500+ mill | Kontakt salg |
 
 **Styrker:**
 - Norsk standard (EN ISO 23387)
 - BREEAM-filtrering
 - GTIN/SPN-kobling
 - Digital Product Passport (DPP) støtte
+- Gratis for små aktører (< 1 mill omsetning)
 
 **Svakheter:**
-- Krever betalt lisens
+- API-tilgang krever separat avtale for kommersiell bruk
 - Demo gir kun 10 første resultater
+- Define Hub krever egen lisens
 
 **Egnethet for MOP:** ⭐⭐⭐⭐
 
@@ -177,9 +197,18 @@ Hvorfor Cobuilder er relevant:
 | Egenskap | Verdi |
 |----------|-------|
 | **Tilgjengelighet** | Swagger-dokumentasjon tilgjengelig |
-| **Prising** | Betalt (kontakt salg@byggtjeneste.no) |
+| **Prising** | Betalt, ikke offentlig (kontakt jla@byggtjeneste.no) |
 | **API-type** | REST med Basic Auth |
 | **Dokumentasjon** | https://export.byggtjeneste.no/swagger/index.html |
+| **Nytt 2024** | NOBB Miljødata API – spesialisert for EPD/GWP-data |
+
+**Tilgangsnivåer:**
+
+| Nivå | Pris | Funksjonalitet |
+|------|------|----------------|
+| Nivå 1 | Gratis | Enkeltsøk, ingen registrering |
+| Nivå 2 | Gratis | Nedlasting (maks 10 produkter), krever registrering |
+| Nivå 3 | Betalt | Full tilgang + API-integrasjon |
 
 **Styrker:**
 - ~3 millioner produkter
@@ -187,27 +216,31 @@ Hvorfor Cobuilder er relevant:
 - GTIN-kobling
 - Norsk bransjestandard
 - 100% dekning av byggevarehandelen
+- **NOBB Miljødata:** 60 000+ produkter med GWP-verdier
+- **Generiske GWP-verdier** (lansert 2024) for produkter uten EPD
 
 **Svakheter:**
-- API-tilgang må kjøpes separat
+- API-tilgang (Nivå 3) må kjøpes separat
 - Rate limiting
-- Miljødata (EPD) er begrenset
+- Priser ikke offentlige
 
-**Egnethet for MOP:** ⭐⭐⭐
+**Kontakt NOBB Miljødata:** Joakim Larsen, jla@byggtjeneste.no, +47 951 87 564
 
-NOBB er Norges definitive produktregister for byggevarer med ~3 millioner produkter. For MOP er det imidlertid en sekundær kilde fordi NOBB fokuserer på logistikk og handel, ikke miljødata.
+**Egnethet for MOP:** ⭐⭐⭐⭐ *(oppgradert pga. NOBB Miljødata)*
 
-Hvorfor NOBB likevel er relevant:
-- **GTIN-kobling:** Når entreprenør scanner strekkode på byggeplassen, kan NOBB-oppslag identifisere produktet og trigge EPD-søk.
-- **Produktvalidering:** Verifisere at riktig produkt faktisk ble levert (As-Built vs. As-Designed).
-- **Integrasjon med innkjøp:** Mange entreprenører bruker NOBB-koblede innkjøpssystemer. Data kan flyte direkte inn i MOP.
+NOBB er Norges definitive produktregister for byggevarer med ~3 millioner produkter. Med lanseringen av **NOBB Miljødata API** i 2024 har NOBB blitt vesentlig mer relevant for MOP – de tilbyr nå strukturerte GWP-verdier koblet direkte til produkter.
+
+Hvorfor NOBB nå er mer relevant:
+- **NOBB Miljødata:** 60 000+ produkter har nå produktspesifikke GWP-verdier (kg CO2-eq) koblet direkte til NOBB-nummer.
+- **Generiske verdier:** For produkter uten EPD tilbyr NOBB nå generiske GWP-verdier per produktkategori – viktig fallback.
+- **GTIN-kobling:** Når entreprenør scanner strekkode på byggeplassen, kan NOBB-oppslag gi både produktinfo OG klimadata.
+- **Integrasjon med innkjøp:** Mange entreprenører bruker NOBB-koblede innkjøpssystemer. Miljødata kan nå flyte direkte inn i MOP.
 - **100% dekning:** Alle produkter som selges via byggevarehandelen i Norge finnes i NOBB.
 
-Hovedbegrensningen er at miljødata (EPD) er svakt representert i NOBB – her er EPD-Norge den primære kilden.
-
 **Bruksområde i MOP:**
+- **Materialer & EPD-tab:** Hente GWP-verdier direkte fra NOBB Miljødata API basert på NOBB-nummer eller GTIN
 - **Produktidentifikasjon:** Slå opp produktnavn og leverandør basert på GTIN/strekkode fra byggeplass
-- **Kobling til EPD:** Bruke NOBB-produktnavn som søketerm mot EPD-Norge for å finne miljødata
+- **Fallback-data:** Bruke NOBBs generiske GWP-verdier når produktspesifikk EPD mangler
 - **Mengdekontroll:** Sammenligne bestilt mengde (fra innkjøpssystem) mot mengde i klimagassregnskap
 - **Tekniske spesifikasjoner:** Hente egenskaper som U-verdi, densitet etc. for produkter uten full EPD
 
