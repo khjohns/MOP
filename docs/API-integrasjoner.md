@@ -179,7 +179,7 @@ Hvorfor Cobuilder er relevant:
 | **Tilgjengelighet** | Swagger-dokumentasjon tilgjengelig |
 | **Prising** | Betalt (kontakt salg@byggtjeneste.no) |
 | **API-type** | REST med Basic Auth |
-| **Dokumentasjon** | https://export.byggtjeneste.no/swagger/ |
+| **Dokumentasjon** | https://export.byggtjeneste.no/swagger/index.html |
 
 **Styrker:**
 - ~3 millioner produkter
@@ -418,7 +418,7 @@ Hvorfor SSB er relevant:
 | **Tilgjengelighet** | Åpne data og API-er |
 | **Prising** | Gratis |
 | **API-type** | REST, nedlastbare datasett |
-| **Dokumentasjon** | https://www.miljodirektoratet.no/tjenester/data-fra-miljodirektoratet/ |
+| **Dokumentasjon** | https://data.miljodirektoratet.no/data-og-produkter/ |
 
 **Relevante tjenester:**
 - Klimagassregnskap for Norge (NIR)
@@ -481,7 +481,7 @@ Hvorfor NVE er relevant:
 |----------|-------|
 | **Tilgjengelighet** | Åpne data, noe API |
 | **Prising** | Gratis |
-| **Dokumentasjon** | https://dibk.no/ |
+| **Dokumentasjon** | https://www.dibk.no/ |
 
 **Relevante tjenester:**
 - TEK17 forskrift og veiledning
