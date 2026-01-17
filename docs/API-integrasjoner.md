@@ -9,6 +9,7 @@ Dette dokumentet beskriver anbefalte API-integrasjoner for MOP (Miljøoppfølgin
 - [Kritiske API-er (Fase 1)](#kritiske-api-er-fase-1)
 - [Produkt- og validerings-API (Fase 2)](#produkt--og-validerings-api-fase-2)
 - [Byggeplass og logistikk-API (Fremtidig)](#byggeplass-og-logistikk-api-fremtidig)
+- [Offentlige datakilder](#offentlige-datakilder)
 - [Prioritert implementeringsrekkefølge](#prioritert-implementeringsrekkefølge)
 
 ---
@@ -338,6 +339,200 @@ Uten API må data importeres via:
 
 ---
 
+## Offentlige datakilder
+
+Norske offentlige etater tilbyr verdifulle datakilder som kan berike MOP med kontekstdata, utslippsfaktorer og geografisk informasjon. Disse er ofte gratis og har høy datakvalitet.
+
+### 10. Kartverket
+
+| Egenskap | Verdi |
+|----------|-------|
+| **Tilgjengelighet** | Åpne API-er (geonorge.no) |
+| **Prising** | Gratis for de fleste tjenester |
+| **API-type** | REST, WMS, WFS, WMTS |
+| **Dokumentasjon** | https://kartkatalog.geonorge.no/ |
+
+**Tilgjengelige tjenester:**
+- **Matrikkelen API:** Eiendoms- og bygningsdata (krever tilgang)
+- **Høydedata/DTM:** Terrengmodeller for masseberegning
+- **Ruteplanlegger:** Kjøreavstander og reisetid
+- **Stedsnavn og adresser:** Geokoding av lokasjoner
+- **Arealressurskart (AR5):** Arealbruk og naturtyper
+
+**Egnethet for MOP:** ⭐⭐⭐⭐
+
+Kartverket er kritisk for normalisering og transportberegninger i MOP. Klimagassregnskap rapporteres ofte som kg CO2/m² BRA – dette krever nøyaktige arealdata. I tillegg er transportavstander (A4) avhengig av geografiske beregninger.
+
+Hvorfor Kartverket er relevant:
+- **Normalisering:** Tomteareal og BRA fra Matrikkelen gir grunnlag for å beregne kg CO2 per m² – nøkkeltall for benchmarking mot kravverdier.
+- **A4 Transportberegning:** Ruteplanlegger-API kan beregne faktisk kjøreavstand fra leverandør til byggeplass, ikke bare luftlinje.
+- **Massebalanse:** Høydedata (DTM) kombinert med prosjektert terreng gir volum for utgraving/fylling – viktig for infrastrukturprosjekter.
+- **Stedfesting:** Alle MOP-prosjekter bør ha geografisk referanse for aggregering og rapportering på kommunenivå.
+
+**Bruksområde i MOP:**
+- **Prosjektopprettelse:** Automatisk hente tomteareal og adresse basert på gnr/bnr eller koordinater
+- **Materialer & EPD-tab:** Normalisere klimagassregnskap til kg CO2/m² BRA for sammenligning mot grenseverdier
+- **A4 Transport:** Beregne kjøreavstand fra leverandøradresse til byggeplassadresse via ruteplanlegger
+- **Masseberegning:** Estimere volum for grunnarbeid basert på terrengmodell (infrastrukturprosjekter)
+- **Sluttrapport:** Inkludere kartutsnitt med prosjektlokasjon
+
+---
+
+### 11. Statistisk sentralbyrå (SSB)
+
+| Egenskap | Verdi |
+|----------|-------|
+| **Tilgjengelighet** | Åpen API |
+| **Prising** | Gratis |
+| **API-type** | REST (JSON-stat) |
+| **Dokumentasjon** | https://www.ssb.no/omssb/tjenester-og-verktoy/api |
+
+**Relevante datasett:**
+- Utslipp til luft (klimagasser per næring)
+- Energibruk i bygninger
+- Byggekostnadsindeks
+- Avfallsstatistikk
+
+**Egnethet for MOP:** ⭐⭐⭐⭐
+
+SSB er den autoritative kilden for nasjonale utslippsfaktorer og statistikk. Når prosjektspesifikke data mangler, er SSB-snitt det beste alternativet for estimering.
+
+Hvorfor SSB er relevant:
+- **Utslippsfaktorer:** Gjennomsnittlige CO2-utslipp per kWh strøm, per liter diesel, per tonn avfall etc. – brukes når produktspesifikk EPD mangler.
+- **Benchmarking:** Sammenligne prosjektets klimagassregnskap mot nasjonalt snitt for bygningstypen.
+- **Tidsserier:** Historiske data viser utvikling og kan brukes for prognoser.
+- **Offisiell kilde:** SSB-data er akseptert som dokumentasjon i offentlige prosjekter.
+
+**Bruksområde i MOP:**
+- **Fallback-faktorer:** Når EPD mangler, bruk SSB-gjennomsnitt for materialkategori med tydelig merking
+- **Energiberegning:** Utslippsfaktor for norsk strømmiks (oppdateres årlig)
+- **Transportutslipp:** CO2 per tonnkilometer for ulike transportmidler (lastebil, båt, tog)
+- **Rapportering:** Sammenligne prosjektresultat mot nasjonale referanseverdier
+
+---
+
+### 12. Miljødirektoratet
+
+| Egenskap | Verdi |
+|----------|-------|
+| **Tilgjengelighet** | Åpne data og API-er |
+| **Prising** | Gratis |
+| **API-type** | REST, nedlastbare datasett |
+| **Dokumentasjon** | https://www.miljodirektoratet.no/tjenester/data-fra-miljodirektoratet/ |
+
+**Relevante tjenester:**
+- Klimagassregnskap for Norge (NIR)
+- Utslippsfaktorer for ulike kilder
+- Avfallsplan-veileder
+- Produktforskriften (farlige stoffer)
+
+**Egnethet for MOP:** ⭐⭐⭐⭐⭐
+
+Miljødirektoratet er den faglige autoriteten for klimagassberegninger i Norge. Deres metodikk og utslippsfaktorer er referansen for offentlige prosjekter og regulatoriske krav.
+
+Hvorfor Miljødirektoratet er kritisk:
+- **Offisielle utslippsfaktorer:** NIR (National Inventory Report) inneholder Norges offisielle utslippsfaktorer – disse bør brukes for A4 (transport) og A5 (byggeplass).
+- **Metodikk:** Veiledere for klimagassberegning sikrer at MOP følger akseptert praksis.
+- **Farlige stoffer:** Produktforskriften definerer hvilke stoffer som er forbudt/regulert – grunnlag for A20-sjekklisten.
+- **Avfallshåndtering:** Retningslinjer for avfallsplan og sorteringsgrad.
+
+**Bruksområde i MOP:**
+- **A4-A5 utslippsfaktorer:** Offisielle faktorer for diesel, bensin, elektrisitet på byggeplass
+- **Farlige stoffer-tab:** Referanse til Produktforskriften for regulerte stoffer
+- **Avfallsberegning:** Utslippsfaktorer for deponi vs. gjenvinning (C3-C4)
+- **Metodikk-referanse:** Lenke til offisielle veiledere i sluttrapport for å dokumentere beregningsmetode
+- **Compliance:** Sjekke at beregninger følger myndighetskrav
+
+---
+
+### 13. Norges vassdrags- og energidirektorat (NVE)
+
+| Egenskap | Verdi |
+|----------|-------|
+| **Tilgjengelighet** | Åpne data |
+| **Prising** | Gratis |
+| **API-type** | REST, WMS |
+| **Dokumentasjon** | https://www.nve.no/energi/energisystem/kraftproduksjon/ |
+
+**Relevante datasett:**
+- Strømmiks og opprinnelsesgarantier
+- Energimerkeordningen for bygninger
+- Kraftpriser (historisk)
+
+**Egnethet for MOP:** ⭐⭐⭐
+
+NVE er relevant for energirelaterte beregninger i MOP, særlig for B6 (energibruk i drift) dersom dette inkluderes i scope.
+
+Hvorfor NVE er relevant:
+- **Strømmiks:** Norsk produksjonsmiks vs. nordisk forbruksmiks vs. europeisk miks – valget påvirker CO2-beregningen vesentlig.
+- **Opprinnelsesgarantier:** Hvis bygget kjøper opprinnelsesgarantier kan utslippsfaktor reduseres til ~0.
+- **Energimerke:** Kobling til energimerkeordningen for eksisterende bygg ved rehabilitering.
+
+**Bruksområde i MOP:**
+- **B6 Energiberegning:** Utslippsfaktor for elektrisitet basert på valgt strømmiks-metodikk
+- **Rehabiliteringsprosjekter:** Hente energimerke for eksisterende bygg som baseline
+- **Dokumentasjon:** Referanse til opprinnelsesgarantier hvis aktuelt
+
+---
+
+### 14. Direktoratet for byggkvalitet (DiBK)
+
+| Egenskap | Verdi |
+|----------|-------|
+| **Tilgjengelighet** | Åpne data, noe API |
+| **Prising** | Gratis |
+| **Dokumentasjon** | https://dibk.no/ |
+
+**Relevante tjenester:**
+- TEK17 forskrift og veiledning
+- Sentral godkjenning (søk)
+- Byggteknisk forskrift
+
+**Egnethet for MOP:** ⭐⭐⭐
+
+DiBK forvalter byggereglene som setter rammene for MOP-krav. TEK17 refererer til klimagassberegninger og materialvalg.
+
+Hvorfor DiBK er relevant:
+- **TEK17-krav:** Forskriften stiller krav til dokumentasjon av byggevarer og miljøegenskaper.
+- **Sentral godkjenning:** Validere at entreprenører/rådgivere har nødvendig kompetanse.
+- **Produktdokumentasjon:** Krav til CE-merking og ytelseserklæringer.
+
+**Bruksområde i MOP:**
+- **Kravgrunnlag:** Referanse til TEK17-paragrafer som hjemler MOP-krav
+- **Validering:** Sjekk av sentral godkjenning for aktører i prosjektet
+- **Sluttrapport:** Dokumentere at løsninger tilfredsstiller forskriftskrav
+
+---
+
+### 15. SINTEF Byggforsk / SINTEF Certification
+
+| Egenskap | Verdi |
+|----------|-------|
+| **Tilgjengelighet** | Delvis åpent (TG-søk gratis) |
+| **Prising** | Byggforsk-abonnement for full tilgang |
+| **Dokumentasjon** | https://www.sintefcertification.no/ |
+
+**Relevante tjenester:**
+- Teknisk Godkjenning (TG) database
+- Byggforsk kunnskapssystem
+- Produktsertifisering
+
+**Egnethet for MOP:** ⭐⭐⭐
+
+SINTEF Byggforsk er relevant for produktvalidering, særlig for produkter som ikke har EPD men har Teknisk Godkjenning.
+
+Hvorfor SINTEF er relevant:
+- **Teknisk Godkjenning:** TG-dokumenter inneholder ofte miljøinformasjon og kan brukes som sekundærkilde.
+- **Byggforsk-anvisninger:** Beste praksis for materialvalg og konstruksjonsløsninger.
+- **Produktoversikt:** Søkbar database over godkjente produkter.
+
+**Bruksområde i MOP:**
+- **Produktvalidering:** Sjekk om produkt har TG som dokumenterer egnethet
+- **Fallback-dokumentasjon:** Bruke TG-data når EPD mangler
+- **Kvalitetssikring:** Referanse til Byggforsk-anvisninger for konstruksjonsløsninger
+
+---
+
 ## Prioritert implementeringsrekkefølge
 
 ### Fase 1: MVP (Anbefalt start)
@@ -345,20 +540,24 @@ Uten API må data importeres via:
 ```
 1. EPD-Norge/ECO Portal API  →  Gratis, norsk, 9000+ EPD-er
 2. Catenda API               →  BIM-integrasjon (eksisterende lisens)
+3. Kartverket                →  Arealdata for normalisering (kg CO2/m²)
+4. Miljødirektoratet         →  Offisielle utslippsfaktorer (A4-A5)
 ```
 
 ### Fase 2: Utvidet funksjonalitet
 
 ```
-3. Cobuilder API             →  Produktvalidering, A20-sjekkliste
-4. NOBB API                  →  Produktoppslag (hvis behov)
+5. Cobuilder API             →  Produktvalidering, A20-sjekkliste
+6. NOBB API                  →  Produktoppslag (hvis behov)
+7. SSB                       →  Fallback-faktorer, benchmarking
 ```
 
 ### Fase 3: Fullverdig løsning
 
 ```
-5. One Click LCA API         →  Full LCA-beregning
-6. Ditio/SmartDok            →  A4-A5 data (hvis API tilgjengelig)
+8. One Click LCA API         →  Full LCA-beregning
+9. Ditio/SmartDok            →  A4-A5 data (hvis API tilgjengelig)
+10. NVE/DiBK/SINTEF          →  Støttedata ved behov
 ```
 
 ---
