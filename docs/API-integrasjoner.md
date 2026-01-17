@@ -57,22 +57,22 @@ Catenda er markedsledende i Norge og allerede i bruk hos mange av aktørene som 
 
 | Egenskap | Verdi |
 |----------|-------|
-| **Tilgjengelighet** | Gratis, åpen API |
-| **Prising** | Gratis (EPD-data er fritt tilgjengelig) |
+| **Tilgjengelighet** | Åpen registrering (ny portal fra des. 2025) |
+| **Prising** | Gratis webvisning; API: €2 000–€10 000/år for kommersielle brukere |
 | **API-type** | REST (via ECO Platform soda4LCA) |
 | **Dokumentasjon** | https://www.eco-platform.org/eco-portal-api-register.html |
 
 **Styrker:**
 - 5 700+ norske EPD-er via EPD-Norge
-- 9 000+ EPD-er via EPD-Global
-- Gratis og åpen tilgang
+- 9 000+ EPD-er via ECO Portal
+- Gratis visning via web, API for systemintegrasjon
 - ISO-verifisert data (EN 15804)
-- Maskinlesbart ILCD-format
+- Maskinlesbart ILCD+EPD-format
 
 **Svakheter:**
 - Kun EPD-data (ikke full LCA-motor)
 - Krever tolkning av EN 15804-format
-- Noe datakvalitetsproblemer (ryddes opp per juli 2025)
+- API-tilgang nå betalingspliktig for kommersielle brukere (fra juli 2025)
 
 **Egnethet for MOP:** ⭐⭐⭐⭐⭐
 
@@ -80,7 +80,7 @@ EPD-Norge er ryggraden i MOPs klimagassregnskap. Hele poenget med MOP er å doku
 
 Hvorfor EPD-Norge fremfor andre kilder:
 - **Norsk energimiks:** Norsk strøm er ~98% fornybar vs. europeisk snitt ~40%. En EPD fra norsk produsent gir vesentlig lavere CO2-verdier enn europeisk snitt – og dette reflekterer faktisk påvirkning.
-- **Gratis tilgang:** Ingen lisensbetaling gjør det mulig å bygge selvbetjent løsning uten løpende kostnader.
+- **Webvisning gratis:** EPD-data kan sees gratis via web. API-tilgang krever nå årlig avgift for kommersielle brukere (fra €2 000 for ECO Platform-medlemmer).
 - **Compliance:** TEK17 og NS 3720 (klimagassberegninger) refererer til EPD-er som dokumentasjonskilde.
 - **Vekst:** Med støtteordning for nye EPD-er øker dekningsgraden kontinuerlig.
 
